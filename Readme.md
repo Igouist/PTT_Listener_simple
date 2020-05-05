@@ -1,8 +1,6 @@
-> 同步發表於 Hackmd： https://hackmd.io/@Igouist/ptt_crawler_and_listener
+> 同步發表於 Blog： https://igouist.github.io/post/201912-ptt-crawler-and-listener/
 
-
-
-# Python：PTT 爬蟲監聽關鍵字並寄通知信
+# Python：用爬蟲在 PTT 上監聽關鍵字並寄通知信
 
 前陣子很想跟 Netflix 的團購，三不五時就上 PTT 看一下團購板，但看到的時候大多已經截止，還有填單填到一半發現已經收滿的，氣得七竅生煙。故嘗試寫了一個通知，在這邊記錄下來。
 
@@ -16,7 +14,7 @@
 
 <!--more-->
 
-#### 爬蟲
+## 爬蟲
 
 所謂的爬蟲就是傳送 HTTP 去瀏覽網頁，並把網頁的內容（像 HTML 等）打包回來分析使用。
 
@@ -40,7 +38,7 @@ def fetch(url):
     return response
 ```
 
-接下來利用 requests_html 將 div.r-ent 拆出來：
+接下來利用 requests_html 將 div.r-ent 拆出來，也可以用其他的 HTML 解析模組（例如比較熟悉用 Beautiful Soup 之類的時候）來替代：
 
 ```python
 from requests_html import HTML
@@ -75,7 +73,7 @@ def parse_article_meta(entry):
 
 到這邊應該能取得首頁上目前的文章了。由於我們做的是監聽團購的目標是不是有人發文，因此我們並不需要再進連結取得內文、或是翻頁繼續爬等更複雜的操作，只需要第一頁的資料就足夠了。（如果想要翻頁，例如說需要爬前一百頁的時候，上面的爬蟲極簡教學有使用抓翻頁按鈕的連結來達成的做法可以參考。）
 
-#### 寄信
+## 寄信
 
 寄信部分利用 smtplib 來做 [SMTP](<http://learn-web-hosting-domain-name.mygreatname.com/how-mail-server-works/how-smtp-pop3-mail-servers-works.html>) 。使用方式相當簡單，可以參考 [菜鳥教程的說明](<http://www.runoob.com/python/python-email.html>) 。這邊為了方便，直接使用 Gmail 來寄件。*（註：要讓 Gmail 可以用這種程式登入的方法來寄信，需要先開啟允許安全性較低的應用程式設定）*
 
@@ -101,7 +99,7 @@ def send_mail_for_me(meta):
 
 這邊目標是將爬到的那一項傳進來寄出去。可以先稍微測試，寄一點垃圾信試試看（找不到的時候記得找一下垃圾信件）。確定收得到之後就可以整合進去了。
 
-#### 本體
+## 組合
 
 接著將上面的兩個部分整合起來：爬蟲，然後如果爬到目標就寄信，沒爬到就準備重爬。這邊先放一個 flog 來準備之後判斷要不要繼續爬的部分。
 
@@ -282,3 +280,10 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+## 參考資料
+
+- [爬蟲極簡教學 - Github](https://github.com/leVirve/CrawlerTutorial)
+- [Python 爬蟲的工具鍊 - Let's Note Weiwei](https://blog.v123582.tw/2018/09/03/學習-Python-爬蟲的最佳路徑/)
+- [Python SMTP 發送郵件 - 菜鳥教程](http://www.runoob.com/python/python-email.html)
+
