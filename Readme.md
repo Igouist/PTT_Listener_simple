@@ -1,5 +1,8 @@
+---
+
 > 同步發表於 Blog： https://igouist.github.io/post/201912-ptt-crawler-and-listener/
 
+---
 # Python：用爬蟲在 PTT 上監聽關鍵字並寄通知信
 
 前陣子很想跟 Netflix 的團購，三不五時就上 PTT 看一下團購板，但看到的時候大多已經截止，還有填單填到一半發現已經收滿的，氣得七竅生煙。故嘗試寫了一個通知，在這邊記錄下來。
